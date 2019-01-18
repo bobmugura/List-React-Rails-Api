@@ -1,0 +1,4 @@
+{
+  "ruby.rubocop.executePath": "/Users/Jasper/.rvm/gems/ruby-2.6.0/bin/",
+  "ruby.rubocop.onSave": true,
+}
