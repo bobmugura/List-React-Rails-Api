@@ -24,6 +24,17 @@ class ListsContainer extends Component {
       })
   }
 
+  removeList = (id) => {
+    axios.delete('/api/v1/lists/' + id)
+      .then(response => {
+        const lists = this.state.lists.filter(
+          list => list.id !== id
+        )
+        this.setState({ lists })
+      })
+      .catch(error => console.log(error))
+  }
+
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/lists')
       .then(response => {
@@ -42,7 +53,7 @@ class ListsContainer extends Component {
         {
           this.state.lists.map(list => {
             return (
-              <List list={list} key={list.id} />
+              <List list={list} key={list.id} onRemoveList={this.removeList} />
             )
           })
         }
