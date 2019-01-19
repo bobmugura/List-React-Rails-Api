@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import List from './List'
+import NewListForm from './NewListForm';
 
 class ListsContainer extends Component {
 
@@ -9,6 +10,18 @@ class ListsContainer extends Component {
     this.state = {
       lists: []
     }
+  }
+
+  addNewList = (title, excerpt) => {
+    axios.post('/api/v1/lists', { list: { title, excerpt } })
+      .then(response => {
+        console.log(response)
+        const lists = [...this.state.lists, response.data]
+        this.setState({ lists })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   componentDidMount() {
@@ -25,12 +38,13 @@ class ListsContainer extends Component {
   render() {
     return (
       <div className="Lists-container">
-        {this.state.lists.map(list => {
-          return (
-            <List list={list} key={list.id} />
-          )
-        })
-
+        <NewListForm onNewList={this.addNewList} />
+        {
+          this.state.lists.map(list => {
+            return (
+              <List list={list} key={list.id} />
+            )
+          })
         }
       </div>
     )
